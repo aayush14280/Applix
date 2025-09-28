@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Auth Bridge</title>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="firebase-service.js"></script>
+</head>
+<body>
+  <script>
+    // This page serves as a bridge between the service worker and Firebase
+    // It's temporarily created, performs Firebase operations, sends results back, and is closed
+    
+    // Listen for messages from the background script
+    // In firebase/temp-auth.html - update or add this part to the script
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  if (message.action === 'saveJob') {
+    try {
+      const user = await window.firebaseAuth.getCurrentUser();
+      if (!user) {
+        chrome.runtime.sendMessage({
+          action: 'saveJobResult',
+          success: false,
+          error: 'User not authenticated'
+        });
+        return;
+      }
+      
+      // Save job to Firestore
+      const db = firebase.firestore();
+      await db.collection('users').doc(user.uid)
+        .collection('savedJobs')
+        .add({
+          title: message.jobData.title,
+          company: message.jobData.company,
+          description: message.jobData.description || '',
+          location: message.jobData.location || 'Not specified',
+          url: message.jobData.url,
+          dateAdded: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'saved'
+        });
+      
+      chrome.runtime.sendMessage({
+        action: 'saveJobResult',
+        success: true
+      });
+    } catch (error) {
+      console.error("Error saving job:", error);
+      chrome.runtime.sendMessage({
+        action: 'saveJobResult',
+        success: false,
+        error: error.message
+      });
+    }
+  }
+});
+    
+    // Automatically fetch profile data when page loads
+    window.onload = async () => {
+      try {
+        const user = await window.firebaseAuth.getCurrentUser();
+        if (user) {
+          const profileData = await window.firebaseData.getUserProfile();
+          chrome.runtime.sendMessage({
+            action: 'profileDataResult',
+            success: true,
+            data: profileData
+          });
+        } else {
+          chrome.runtime.sendMessage({
+            action: 'profileDataResult',
+            success: false,
+            error: 'User not authenticated'
+          });
+        }
+      } catch (error) {
+        chrome.runtime.sendMessage({
+          action: 'profileDataResult',
+          success: false,
+          error: error.message
+        });
+      }
+    };
+  </script>
+</body>
+</html>

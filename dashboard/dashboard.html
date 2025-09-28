@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Applix Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <style>
+      /* --- Icon Styles --- */
+      /* --- Dynamic Profile Section Styles --- */
+      .profile-entry {
+        position: relative;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        background-color: #fafafa;
+      }
+      .profile-entry .form-row {
+        margin-bottom: 1rem;
+      }
+      .profile-entry .form-row:last-child {
+        margin-bottom: 0;
+      }
+      .remove-entry-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: transparent;
+        border: none;
+        color: #9e9e9e;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 1;
+        padding: 4px;
+      }
+      .remove-entry-btn:hover {
+        color: #f44336;
+      }
+      .add-entry-btn {
+        margin-top: 0.5rem;
+      }
+    </style>
+    <script src="/dist/dashboard.bundle.js" type="module" defer></script>
+  </head>
+  <body>
+    <div class="applix-dashboard">
+      <aside class="sidebar">
+        <div class="logo-container">
+          
+          <h1>Applix</h1>
+        </div>
+        <nav class="nav-menu">
+          <ul>
+            <li class="nav-item active" data-target="overview">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </span> Overview
+            </li>
+            <li class="nav-item" data-target="profile">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </span> My Profile
+            </li>
+            <li class="nav-item" data-target="jobs">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              </span> Saved Jobs
+            </li>
+            <li class="nav-item" data-target="applications">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </span> Applications
+            </li>
+            <li class="nav-item" data-target="calendar">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </span> Calendar
+            </li>
+            <li class="nav-item" data-target="settings">
+              <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              </span> Settings
+            </li>
+          </ul>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiIGZpbGw9IiNFNUU3RUIiLz4KPHBhdGggZD0iTTE2IDhDMTguMjEgOCAyMCA5Ljc5IDIwIDEyQzIwIDE0LjIxIDE4LjIxIDE2IDE2IDE2QzEzLjc5IDE2IDEyIDE0LjIxIDEyIDEyQzEyIDkuNzkgMTMuNzkgOCAxNiA4Wk0xNiAyNkMxMi42NyAyNiAxMCAyNC4zMSAxMCAyMi4yNUMxMCAyMC4xOSAxMi42NyAxOCAxNiAxOEMxOS4zMyAxOCAyMiAyMC4xOSAyMiAyMi4yNUMyMiAyNC4zMSAxOS4zMyAyNiAxNiAyNloiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+"
+              alt="User"
+              id="user-avatar"
+              class="avatar"
+            />
+            <span id="user-name">User Name</span>
+          
+        </aside>
+
+      <main class="content">
+        <header class="dashboard-header">
+          <div class="search-container">
+            <span class="icon" style="margin-right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search applications, jobs, etc..."
+            />
+          </div>
+          <div class="header-actions">
+            <button id="refresh-btn" class="btn-icon" title="Refresh Data">
+  <svg xmlns="http://www.w3.org/2000/svg" 
+       viewBox="0 0 24 24" 
+       fill="none" 
+       stroke="currentColor" 
+       stroke-width="2" 
+       stroke-linecap="round" 
+       stroke-linejoin="round" 
+       width="18" 
+       height="18">  
+    <polyline points="23 4 23 10 17 10"></polyline>
+    <polyline points="1 20 1 14 7 14"></polyline>
+    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+  </svg>
+</button>
+
+            <button
+  id="notifications-btn"
+  class="btn-icon"
+  title="Notifications"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" 
+       viewBox="0 0 24 24" 
+       fill="none" 
+       stroke="currentColor" 
+       stroke-width="2" 
+       stroke-linecap="round" 
+       stroke-linejoin="round" 
+       width="18" 
+       height="18"> 
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+  </svg>
+</button>
+
+          </div>
+        </header>
+
+        <div class="dashboard-sections">
+          <section id="overview" class="section active">
+            <h2 class="section-title">Dashboard Overview</h2>
+
+            <div class="stats-container">
+              <div class="stat-card">
+                <h3>Applications</h3>
+                <div class="value" id="total-applications">0</div>
+              </div>
+              <div class="stat-card">
+                <h3>Interviews</h3>
+                <div class="value" id="upcoming-interviews">0</div>
+              </div>
+              <div class="stat-card">
+                <h3>Saved Jobs</h3>
+                <div class="value" id="saved-jobs-count">0</div>
+              </div>
+              <div class="stat-card">
+                <h3>Response Rate</h3>
+                <div class="value" id="response-rate">0%</div>
+              </div>
+            </div>
+
+            <div class="overview-row">
+              <div class="overview-card">
+                <div class="card-header">
+                  <h3>Recent Activity</h3>
+                  <a href="#" class="view-all" data-target="applications"
+                    >View All</a
+                  >
+                </div>
+                <div class="card-content">
+                  <ul class="activities-list" id="activities-list">
+                    <li class="empty-state">No recent activities yet</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="overview-card">
+                <div class="card-header">
+                  <h3>Upcoming Events</h3>
+                  <a href="#" class="view-all" data-target="calendar"
+                    >View Calendar</a
+                  >
+                </div>
+                <div class="card-content">
+                  <ul class="events-list" id="events-list">
+                    <li class="empty-state">No upcoming events</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="profile" class="section">
+            <h2 class="section-title">My Profile</h2>
+            <p class="section-description">
+              Manage your personal information used for auto-filling job
+              applications.
+            </p>
+
+            <form id="profile-form" class="profile-form">
+              <h3>Personal Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="first-name">First Name</label>
+                  <input
+                    type="text"
+                    id="first-name"
+                    name="firstName"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="last-name">Last Name</label>
+                  <input type="text" id="last-name" name="lastName" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" required />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="headline">Professional Headline</label>
+                  <input
+                    type="text"
+                    id="headline"
+                    name="headline"
+                    placeholder="e.g., Frontend Developer"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="experience">Years of Experience</label>
+                  <input
+                    type="number"
+                    id="experience"
+                    name="experience"
+                    min="0"
+                    max="50"
+                  />
+                </div>
+              </div>
+
+              <hr/>
+              <h3>Location Details</h3>
+              <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="address">Street Address</label>
+                    <input type="text" id="address" name="address" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" />
+                </div>
+                <div class="form-group">
+                  <label for="state">State/Province</label>
+                  <input type="text" id="state" name="state" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                    <label for="zip-code">ZIP / Postal Code</label>
+                    <input type="text" id="zip-code" name="zipCode" />
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country" />
+                </div>
+              </div>
+
+              <hr/>
+              <h3>Professional Links</h3>
+              <div class="form-row">
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile URL</label>
+                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..."/>
+                </div>
+                <div class="form-group">
+                    <label for="github">GitHub Profile URL</label>
+                    <input type="url" id="github" name="github" placeholder="https://github.com/..."/>
+                </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group">
+                      <label for="portfolio">Portfolio/Website URL</label>
+                      <input type="url" id="portfolio" name="portfolio" placeholder="https://..."/>
+                  </div>
+              </div>
+              
+              <hr />
+              <h3>Work Experience</h3>
+              <div id="experience-container">
+                </div>
+              <button type="button" id="add-experience-btn" class="btn secondary add-entry-btn">
+                + Add Experience
+              </button>
+
+              <hr />
+              <h3>Education</h3>
+              <div id="education-container">
+                </div>
+              <button type="button" id="add-education-btn" class="btn secondary add-entry-btn">
+                + Add Education
+              </button>
+
+              <hr />
+              <h3>Skills</h3>
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="skills">Skills</label>
+                  <textarea
+                    id="skills"
+                    name="skills"
+                    rows="4"
+                    placeholder="e.g., JavaScript, React, Node.js, CSS, HTML, Figma"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn primary">Save Profile</button>
+                <button type="reset" class="btn secondary">Reset</button>
+              </div>
+            </form>
+          </section>
+
+          <section id="jobs" class="section">
+            <h2 class="section-title">Saved Jobs</h2>
+
+            <div
+              class="filters-bar"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <div class="filter-group">
+                <label for="job-filter">Filter:</label>
+                <select id="job-filter">
+                  <option value="all">All Jobs</option>
+                  <option value="recent">Recently Added (7 days)</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label for="job-sort">Sort By:</label>
+                <select id="job-sort">
+                  <option value="date-desc">Date (Newest First)</option>
+                  <option value="date-asc">Date (Oldest First)</option>
+                  <option value="company-asc">Company (A-Z)</option>
+                </select>
+              </div>
+            </div>
+            <div class="jobs-container" id="jobs-container">
+              <div class="empty-state">No saved jobs yet</div>
+            </div>
+          </section>
+
+          <section id="applications" class="section">
+            <h2 class="section-title">Applications</h2>
+            <div
+              class="filters-bar"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <div class="filter-group">
+                <label for="application-filter">Filter by Status:</label>
+                <select id="application-filter">
+                  <option value="all">All Applications</option>
+                  <option value="pending">Pending</option>
+                  <option value="interview">Interview</option>
+                  <option value="offer">Offer</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+              <button id="add-application-btn" class="btn primary">
+                Add Application
+              </button>
+            </div>
+
+            <div class="applications-container" id="applications-container">
+              <div class="empty-state">No applications yet</div>
+            </div>
+          </section>
+
+          <section id="calendar" class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 class="section-title" style="margin: 0;">Calendar</h2>
+                <button id="add-reminder-btn" class="btn primary">Add Reminder</button>
+            </div>
+
+            <div
+              class="calendar-controls"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+              "
+            >
+              <button id="prev-month" class="btn small">← Previous</button>
+              <h3 id="month-year-display" style="margin:0;">September 2025</h3>
+              <button id="next-month" class="btn small">Next →</button>
+            </div>
+
+            <div class="calendar-container" id="calendar-container">
+              </div>
+
+            <div class="upcoming-reminders" style="margin-top: 2rem;">
+              <h3>Upcoming Reminders</h3>
+              <div id="reminders-list" class="reminders-container">
+                <div class="empty-state">No upcoming reminders</div>
+              </div>
+            </div>
+          </section>
+
+          <section id="settings" class="section">
+            <h2 class="section-title">Settings</h2>
+
+            <div class="settings-container">
+              <div class="settings-group">
+                <h3>General Settings</h3>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Auto-Scan Jobs</h4>
+                    <p>
+                      Automatically scan job listings when visiting job sites
+                    </p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="auto-scan-toggle" checked />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Floating Button</h4>
+                    <p>Show floating button on all pages</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="floating-btn-toggle" checked />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h3>Notifications</h3>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Browser Notifications</h4>
+                    <p>Receive browser notifications for upcoming events</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="browser-notif-toggle" checked />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <h4>Reminder Time</h4>
+                    <p>How early to remind you before events</p>
+                  </div>
+                  <select id="reminder-time-select">
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60" selected>1 hour</option>
+                    <option value="120">2 hours</option>
+                    <option value="1440">1 day</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h3>Data Management</h3>
+                <div
+                  class="data-actions"
+                  style="display: flex; gap: 1rem; flex-wrap: wrap"
+                >
+                  <button id="export-data-btn" class="btn secondary">
+                    Export Data
+                  </button>
+                  <button id="import-data-btn" class="btn secondary">
+                    Import Data
+                  </button>
+                  <button id="clear-data-btn" class="btn danger">
+                    Clear All Data
+                  </button>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h3>Account</h3>
+                <button id="logout-btn" class="btn danger">Log out</button>
+              </div>
+              </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="application-modal" class="modal-backdrop" style="display: none">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Application</h2>
+          <button class="modal-close" id="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-content">
+          <form id="application-form">
+            <input type="hidden" id="app-id" name="appId" value="" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="app-position">Position</label>
+                <input type="text" id="app-position" name="position" required />
+              </div>
+              <div class="form-group">
+                <label for="app-company">Company</label>
+                <input type="text" id="app-company" name="company" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="app-date">Date Applied</label>
+                <input type="date" id="app-date" name="dateApplied" required />
+              </div>
+              <div class="form-group">
+                <label for="app-status">Status</label>
+                <select id="app-status" name="status">
+                  <option value="pending">Pending</option>
+                  <option value="interview">Interview</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="offer">Offer</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="app-url">Job URL</label>
+                <input
+                  type="url"
+                  id="app-url"
+                  name="url"
+                  placeholder="https://..."
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="app-notes">Notes</label>
+                <textarea id="app-notes" name="notes" rows="3"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div
+          class="modal-footer"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <button
+            type="button"
+            id="delete-in-modal-btn"
+            class="btn danger"
+            style="display: none"
+          >
+            Delete
+          </button>
+          <div>
+            <button
+              type="button"
+              class="btn secondary"
+              id="cancel-application-btn"
+            >
+              Cancel
+            </button>
+            <button type="submit" form="application-form" class="btn primary">
+              Save Application
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="reminder-modal" class="modal-backdrop" style="display: none">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="reminder-modal-title">Add Reminder</h2>
+                <button class="modal-close" id="reminder-modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-content">
+                <form id="reminder-form" class="reminder-form">
+                    <input type="hidden" id="reminder-id" name="reminderId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reminder-title">Title</label>
+                            <input type="text" id="reminder-title" name="title" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="reminder-type">Type</label>
+                            <select id="reminder-type" name="type" required>
+                                <option value="interview">Interview</option>
+                                <option value="deadline">Application Deadline</option>
+                                <option value="followup">Follow Up</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reminder-date">Date</label>
+                            <input type="date" id="reminder-date" name="date" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="reminder-time">Time</label>
+                            <input type="time" id="reminder-time" name="time" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="reminder-notes">Notes</label>
+                            <textarea id="reminder-notes" name="notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn secondary" id="cancel-reminder-btn">Cancel</button>
+                <button type="submit" form="reminder-form" id="save-reminder-btn" class="btn primary">Save Reminder</button>
+            </div>
+        </div>
+    </div>
+
+    <div
+      id="notification-container"
+      style="position: fixed; top: 20px; right: 20px; z-index: 1001"
+    ></div>
+  </body>
+</html>

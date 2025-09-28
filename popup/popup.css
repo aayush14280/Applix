@@ -1,0 +1,179 @@
+/* popup/popup.css */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #202124;
+  background-color: #f8f9fa;
+}
+
+.container {
+  width: 340px;
+  padding: 0 16px 16px 16px;
+  position: relative; /* Establishes a positioning context for the user photo */
+}
+
+h3 {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #5f6368;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.primary {
+  background-color: #4285F4;
+  color: white;
+}
+
+.primary:hover {
+  background-color: #3367D6;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.secondary {
+  background-color: #ffffff;
+  color: #4285F4;
+  border: 1px solid #ddd;
+}
+
+.secondary:hover {
+  background-color: #f1f3f4;
+  border-color: #ccc;
+}
+
+.text {
+  background-color: transparent;
+  color: #5f6368;
+  font-weight: 500;
+}
+
+.text:hover {
+  color: #202124;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.header {
+  padding: 16px 0;
+}
+
+.logo-container {
+  display: flex;
+}
+
+.logo {
+  font-family: 'Raleway', 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0;
+
+  background: linear-gradient(90deg, #4f46e5, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+
+
+
+#login-section {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.welcome-text {
+  margin-bottom: 20px;
+  color: #5f6368;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#google-login-btn {
+  gap: 10px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- MODIFIED STYLES --- */
+.user-info {
+  position: absolute;
+  top: 20px; /* Aligns with the header area */
+  right: 16px;
+}
+
+#user-name {
+  display: none; /* Hides the username */
+}
+/* --- END MODIFIED STYLES --- */
+
+#user-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 10px; /* Adds space at the top of the button list */
+}
+
+.recent-activity {
+  margin-bottom: 16px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 16px;
+}
+
+#activity-list {
+  list-style: none;
+}
+
+#activity-list li {
+  padding: 10px 4px;
+  border-bottom: 1px solid #e8eaed;
+  font-size: 13px;
+  color: #3c4043;
+}
+#activity-list li:last-child {
+  border-bottom: none;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 8px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 8px;
+}
