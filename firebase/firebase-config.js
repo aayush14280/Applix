@@ -4,13 +4,13 @@ import { getAuth } from "firebase/auth"; // You need this for authentication
 
 // Your firebaseConfig object
 const firebaseConfig = {
-  apiKey: "AIzaSyAy9Pt5ZFPSt3JZa1BJgJnb_m2xFwd6v7A",
-  authDomain: "applix-491f9.firebaseapp.com",
-  projectId: "applix-491f9",
-  storageBucket: "applix-491f9.firebasestorage.app",
-  messagingSenderId: "554364657413",
-  appId: "1:554364657413:web:bdccf9d500d8187c0ca16c",
-  measurementId: "G-3L50V821W3"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

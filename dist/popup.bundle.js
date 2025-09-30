@@ -1,11 +1,12 @@
 import { i as initializeApp, g as getAuth, a as getFirestore, G as GoogleAuthProvider, s as signInWithCredential, b as signOut, o as onAuthStateChanged, c as collection, q as query, d as orderBy, e as getDocs } from "./assets/index.esm2017-5f242de0.js";
 const firebaseConfig = {
   apiKey: "AIzaSyAy9Pt5ZFPSt3JZa1BJgJnb_m2xFwd6v7A",
-  authDomain: "applix-491f9.firebaseapp.com",
+  authDomain: {}.VITE_AUTH_DOMAIN,
   projectId: "applix-491f9",
-  storageBucket: "applix-491f9.appspot.com",
+  storageBucket: {}.VITE_STORAGE_BUCKET,
   messagingSenderId: "554364657413",
-  appId: "1:554364657413:web:bdccf9d500d8187c0ca16c"
+  appId: "1:554364657413:web:bdccf9d500d8187c0ca16c",
+  measurementId: "G-4J9J4J9J4J"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

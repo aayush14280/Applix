@@ -5,12 +5,13 @@ import { getFirestore, collection, getDocs, query, orderBy } from "firebase/fire
 
 // --- Firebase Configuration ---
 const firebaseConfig = {
-  apiKey: "AIzaSyAy9Pt5ZFPSt3JZa1BJgJnb_m2xFwd6v7A",
-  authDomain: "applix-491f9.firebaseapp.com",
-  projectId: "applix-491f9",
-  storageBucket: "applix-491f9.appspot.com",
-  messagingSenderId: "554364657413",
-  appId: "1:554364657413:web:bdccf9d500d8187c0ca16c"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
 // --- Initialize Firebase and Services ---
